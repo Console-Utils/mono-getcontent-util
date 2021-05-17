@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security;
 
 namespace getcontent
@@ -15,6 +17,8 @@ namespace getcontent
         {
             if (args.Length == 0)
                 return;
+
+            bool numberLines = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -32,7 +36,12 @@ namespace getcontent
                         break;
                     case "-f":
                     case "--file":
-                        File(j < args.Length ? args[j] : string.Empty);
+                        File(j < args.Length ? args[j] : string.Empty, numberLines);
+                        i++;
+                        break;
+                    case "-n":
+                    case "--number":
+                        numberLines = true;
                         break;
                 }
             }
@@ -47,10 +56,12 @@ namespace getcontent
                 "-h|--help - prints help and exits" +
                 "-v|--version - prints version and exits" +
                 "-f|--file - specifies file name to view" +
+                "-n|--number - use line numbering" +
                 "" +
                 "Examples:" +
                 "getcontent --help" +
-                "getcontent --file test.txt");
+                "getcontent --file test.txt" +
+                "getcontent --number --file test.txt");
         }
 
         public static void Version()
@@ -58,11 +69,14 @@ namespace getcontent
             Console.WriteLine("v0.1");
         }
 
-        public static void File(string name)
+        public static void File(string name, bool numberLines)
         {
             try
             {
-                Console.WriteLine(string.Join('\n', System.IO.File.ReadAllLines(name)));
+                IEnumerable<string> lines = System.IO.File.ReadAllLines(name);
+                if (numberLines)
+                    lines = lines.Select((line, index) => $"{index} {line}");
+                Console.WriteLine(string.Join('\n', lines));
             }
             catch (ArgumentNullException)
             {
