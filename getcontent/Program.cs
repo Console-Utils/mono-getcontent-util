@@ -100,7 +100,7 @@ namespace getcontent
             }
             catch (FileNotFoundException)
             {
-                Console.Error.WriteLine("File not found. Try correct you path to file, program is executed from {Directory.GetCurrentDirectory()}.");
+                Console.Error.WriteLine($"File not found. Try correct you path to file, program is executed from {Directory.GetCurrentDirectory()}.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (IOException)
