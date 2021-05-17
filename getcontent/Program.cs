@@ -18,9 +18,15 @@ namespace getcontent
             if (args.Length == 0)
                 return;
 
+            const string defaultOutputNumberedFormat = "%n %s";
+            const string defaultOutputNonnumberedFormat = "%s";
+
+            const string DefaultOutputFormat = defaultOutputNonnumberedFormat;
+
             bool numberLines = false;
             bool useNewLine = false;
             bool showNames = false;
+            string outputFormat = DefaultOutputFormat;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -38,7 +44,7 @@ namespace getcontent
                         break;
                     case "-f":
                     case "--file":
-                        File(j < args.Length ? args[j] : string.Empty, numberLines, useNewLine, showNames);
+                        File(j < args.Length ? args[j] : string.Empty, numberLines, useNewLine, showNames, outputFormat);
                         if (!useNewLine)
                             useNewLine = true;
                         i++;
@@ -46,10 +52,12 @@ namespace getcontent
                     case "-n":
                     case "--number":
                         numberLines = true;
+                        outputFormat = defaultOutputNumberedFormat;
                         break;
                     case "!-n":
                     case "!--number":
                         numberLines = false;
+                        outputFormat = defaultOutputNonnumberedFormat;
                         break;
                     case "-N":
                     case "--name":
@@ -58,6 +66,15 @@ namespace getcontent
                     case "!-N":
                     case "!--name":
                         showNames = false;
+                        break;
+                    case "-F":
+                    case "--format":
+                        outputFormat = j < args.Length ? args[j] : string.Empty;
+                        i++;
+                        break;
+                    case "!-F":
+                    case "!--format":
+                        outputFormat = DefaultOutputFormat;
                         break;
                 }
             }
@@ -76,6 +93,8 @@ namespace getcontent
                 "!-n|!--number - don't use line numbering" +
                 "-N|--name - show file names" +
                 "!-N|!--name - don't show file names" +
+                "-F|--format - specify output format (%n - line number, %s - file string)" +
+                "!-F|!--format - use default output format (%s)" +
                 "" +
                 "Examples:" +
                 "getcontent --help" +
@@ -90,13 +109,15 @@ namespace getcontent
             Console.WriteLine("v0.1");
         }
 
-        public static void File(string name, bool numberLines, bool useNewLine, bool showName)
+        public static void File(string name, bool numberLines, bool useNewLine, bool showName, string outputFormat)
         {
             try
             {
                 IEnumerable<string> lines = System.IO.File.ReadAllLines(name);
-                if (numberLines)
-                    lines = lines.Select((line, index) => $"{index} {line}");
+
+                if (!numberLines)
+                    outputFormat = outputFormat.Replace("%n", string.Empty);
+                lines = lines.Select((line, index) => outputFormat.Replace("%n", (index + 1).ToString()).Replace("%s", line));
 
                 if (useNewLine)
                     Console.WriteLine();
