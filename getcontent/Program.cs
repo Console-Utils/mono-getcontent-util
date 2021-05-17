@@ -80,27 +80,27 @@ namespace getcontent
             }
             catch (ArgumentNullException)
             {
-                Console.Error.WriteLine("Path contains invalid characters or is empty.");
+                Console.Error.WriteLine("Path contains invalid characters or is empty. Try remove all invalid characters from path.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (ArgumentException)
             {
-                Console.Error.WriteLine("Path contains invalid characters or is empty.");
+                Console.Error.WriteLine("Path contains invalid characters or is empty. Try remove all invalid characters from path.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (PathTooLongException)
             {
-                Console.Error.WriteLine("Very long path.");
+                Console.Error.WriteLine("Very long path. Try move file to another location.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (DirectoryNotFoundException)
             {
-                Console.Error.WriteLine("File not found.");
+                Console.Error.WriteLine($"File not found. Try correct you path to file, program is executed from {Directory.GetCurrentDirectory()}.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (FileNotFoundException)
             {
-                Console.Error.WriteLine("File not found.");
+                Console.Error.WriteLine("File not found. Try correct you path to file, program is executed from {Directory.GetCurrentDirectory()}.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (IOException)
@@ -115,7 +115,7 @@ namespace getcontent
             }
             catch (NotSupportedException)
             {
-                Console.Error.WriteLine("Path contains invalid characters or is empty.");
+                Console.Error.WriteLine("Path contains invalid characters or is empty. Try remove all invalid characters from path.");
                 Environment.Exit((int)Status.WrongOptionSpecifiedOrWrongValueProvided);
             }
             catch (SecurityException)
