@@ -47,9 +47,17 @@ namespace getcontent
                     case "--number":
                         numberLines = true;
                         break;
+                    case "!-n":
+                    case "!--number":
+                        numberLines = false;
+                        break;
                     case "-N":
                     case "--name":
                         showNames = true;
+                        break;
+                    case "!-N":
+                    case "!--name":
+                        showNames = false;
                         break;
                 }
             }
@@ -65,12 +73,16 @@ namespace getcontent
                 "-v|--version - prints version and exits" +
                 "-f|--file - specifies file name to view" +
                 "-n|--number - use line numbering" +
+                "!-n|!--number - don't use line numbering" +
                 "-N|--name - show file names" +
+                "!-N|!--name - don't show file names" +
                 "" +
                 "Examples:" +
                 "getcontent --help" +
                 "getcontent --file test.txt" +
-                "getcontent --number --file test.txt");
+                "getcontent --number --file test.txt" +
+                "getcontent --name --number --file test.txt" +
+                "getcontent --name --number --file test.txt !--number --file test1.txt");
         }
 
         public static void Version()
