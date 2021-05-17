@@ -18,6 +18,8 @@ getcontent - program to view text files.
 - `-F`|`--format` - specify output format (%n - line number, %s - file string)
 - `!-F`|`!--format` - use default output format (%s)
 
+> ⚠️ To use %n in `-F`|`--format` you must specify `-n`|`--number` before it.
+
 ## Examples
 
 ```bat
