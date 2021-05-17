@@ -19,6 +19,8 @@ namespace getcontent
                 return;
 
             bool numberLines = false;
+            bool useNewLine = false;
+            bool showNames = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -36,12 +38,18 @@ namespace getcontent
                         break;
                     case "-f":
                     case "--file":
-                        File(j < args.Length ? args[j] : string.Empty, numberLines);
+                        File(j < args.Length ? args[j] : string.Empty, numberLines, useNewLine, showNames);
+                        if (!useNewLine)
+                            useNewLine = true;
                         i++;
                         break;
                     case "-n":
                     case "--number":
                         numberLines = true;
+                        break;
+                    case "-N":
+                    case "--name":
+                        showNames = true;
                         break;
                 }
             }
@@ -57,6 +65,7 @@ namespace getcontent
                 "-v|--version - prints version and exits" +
                 "-f|--file - specifies file name to view" +
                 "-n|--number - use line numbering" +
+                "-N|--name - show file names" +
                 "" +
                 "Examples:" +
                 "getcontent --help" +
@@ -69,13 +78,18 @@ namespace getcontent
             Console.WriteLine("v0.1");
         }
 
-        public static void File(string name, bool numberLines)
+        public static void File(string name, bool numberLines, bool useNewLine, bool showName)
         {
             try
             {
                 IEnumerable<string> lines = System.IO.File.ReadAllLines(name);
                 if (numberLines)
                     lines = lines.Select((line, index) => $"{index} {line}");
+
+                if (useNewLine)
+                    Console.WriteLine();
+                if (showName)
+                    Console.WriteLine($"# file: {name}");
                 Console.WriteLine(string.Join('\n', lines));
             }
             catch (ArgumentNullException)
