@@ -6,7 +6,7 @@ defaults:
     shell: bash
 
 jobs:
-  buildandtest:
+  dotnetbuildandtest:
     runs-on: windows-2019
 
     steps:
@@ -30,4 +30,19 @@ jobs:
           logs='logs.log'
           jb inspectcode getcontent.sln -s=warning -o="$logs"
           grep '<Issues />' "$logs" || exit "$SEVERAL_ERRORS_IN_CSHARP_CODE"
+          exit "$SUCCESS"
+  
+  markdowntest:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Lint
+        run: |
+          sudo npm install -g markdownlint-cli2
+
+          declare -i SUCCESS=0
+          declare -i SEVERAL_ERRORS_IN_MARKDOWN_CODE=1
+          markdownlint-cli2 *.md || exit "$SEVERAL_ERRORS_IN_MARKDOWN_CODE"
           exit "$SUCCESS"
