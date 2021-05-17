@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint
         run: |
-          sudo npm install -g markdownlint-cli2
+          npm install -g markdownlint-cli2
 
           declare -i SUCCESS=0
           declare -i SEVERAL_ERRORS_IN_MARKDOWN_CODE=1
