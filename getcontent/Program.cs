@@ -1,4 +1,6 @@
-﻿namespace getcontent
+﻿using System;
+
+namespace getcontent
 {
     internal static class Program
     {
@@ -25,10 +27,21 @@
 
         public static void Help()
         {
+            Console.WriteLine("getcontent - program to view text files." +
+                "" +
+                "Options:" +
+                "-h|--help - prints help and exits" +
+                "-v|--version - prints version and exits" +
+                "-f|--file - specifies file name to view" +
+                "" +
+                "Examples:" +
+                "getcontent --help" +
+                "getcontent --file test.txt");
         }
 
         public static void Version()
         {
+            Console.WriteLine("v0.1");
         }
     }
 }
