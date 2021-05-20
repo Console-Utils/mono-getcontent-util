@@ -35,6 +35,12 @@ jobs:
           jb inspectcode getcontent.sln -s=warning -o="$logs"
           grep '<Issues />' "$logs" || exit "$SEVERAL_ERRORS_IN_CSHARP_CODE"
           exit "$SUCCESS"
+      
+      - name: Upload ReSharper Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: resharper-logs
+          path: logs.log
   
   markdowntest:
     runs-on: windows-2019
