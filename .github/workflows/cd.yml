@@ -37,3 +37,27 @@ jobs:
         with:
           name: release
           path: release.tar
+
+  publishrelease:
+    runs-on: windows-2019
+
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: release
+        
+      - name: Set Version
+        run: |
+          VERSION=$(echo $'${{ join(github.event.pull_request.labels.*.name, '\n') }}' | grep 'v.*' | head -n 1)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Publish
+        if: env.VERSION != ''
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ env.VERSION }}
+          prerelease: false
+          title: Build ${{ env.VERSION }}
+          files: release.tar
