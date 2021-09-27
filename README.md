@@ -4,9 +4,7 @@
 
 [![CD](https://github.com/emilyseville7cfg/mono-getcontent/actions/workflows/cd.yml/badge.svg)](https://github.com/emilyseville7cfg/mono-getcontent/actions/workflows/cd.yml)
 
-```bat
 getcontent - program to view text files.
-```
 
 ## Options
 
