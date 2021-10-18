@@ -4,6 +4,8 @@
 
 [![CD](https://github.com/emilyseville7cfg/mono-getcontent/actions/workflows/cd.yml/badge.svg)](https://github.com/emilyseville7cfg/mono-getcontent/actions/workflows/cd.yml)
 
+> ⚠️ This project is no longer maintained.
+
 getcontent - program to view text files.
 
 ## Options
